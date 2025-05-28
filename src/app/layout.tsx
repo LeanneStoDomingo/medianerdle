@@ -1,14 +1,13 @@
 import "~/styles/globals.css";
 
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Geist } from "next/font/google";
 import {
   ConvexClientProvider,
   PostHogProvider,
   ThemeProvider,
 } from "~/app/providers";
-import { ThemeToggle } from "~/app/theme-toggle";
+import { Header } from "~/app/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,19 +44,6 @@ export default function RootLayout({
         </ConvexClientProvider>
       </body>
     </html>
-  );
-}
-
-function Header() {
-  return (
-    <header className="container mx-auto flex items-center justify-between p-4">
-      <Link href="/" className="text-2xl">
-        MediaNerdle
-      </Link>
-      <div>
-        <ThemeToggle />
-      </div>
-    </header>
   );
 }
 
