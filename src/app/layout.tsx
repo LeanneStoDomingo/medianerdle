@@ -1,16 +1,17 @@
 import "~/styles/globals.css";
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { ConvexClientProvider, PostHogProvider } from "~/app/providers";
+import Link from "next/link";
+import { Geist } from "next/font/google";
+import {
+  ConvexClientProvider,
+  PostHogProvider,
+  ThemeProvider,
+} from "~/app/providers";
+import { ThemeToggle } from "~/app/theme-toggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -26,14 +27,40 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} antialiased`}>
         <ConvexClientProvider>
-          <PostHogProvider>{children}</PostHogProvider>
+          <PostHogProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Header />
+              <main className="container mx-auto p-4">{children}</main>
+              <Footer />
+            </ThemeProvider>
+          </PostHogProvider>
         </ConvexClientProvider>
       </body>
     </html>
   );
+}
+
+function Header() {
+  return (
+    <header className="container mx-auto flex items-center justify-between p-4">
+      <Link href="/" className="text-2xl">
+        MediaNerdle
+      </Link>
+      <div>
+        <ThemeToggle />
+      </div>
+    </header>
+  );
+}
+
+function Footer() {
+  return <footer></footer>;
 }
