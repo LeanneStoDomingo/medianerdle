@@ -2,11 +2,10 @@
 
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, Suspense } from "react";
-import { usePostHog } from "posthog-js/react";
-
-import posthog from "posthog-js";
-import { PostHogProvider as PHProvider } from "posthog-js/react";
 import { env } from "~/env";
+
+import { usePostHog, PostHogProvider as PHProvider } from "posthog-js/react";
+import posthog from "posthog-js";
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -55,4 +54,16 @@ function SuspendedPostHogPageView() {
       <PostHogPageView />
     </Suspense>
   );
+}
+
+import { ConvexProvider, ConvexReactClient } from "convex/react";
+
+const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+
+export function ConvexClientProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <ConvexProvider client={convex}>{children}</ConvexProvider>;
 }

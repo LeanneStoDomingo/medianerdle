@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.13.6",
+    "convex": "^1.24.2",
     "next": "15.3.2",
     "posthog-js": "^1.248.0",
     "react": "^19.0.0",
