@@ -2,6 +2,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
 import tseslint from 'typescript-eslint';
+import convexPlugin from "@convex-dev/eslint-plugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,6 +16,7 @@ const eslintConfig = tseslint.config([
     ignores: ['.next']
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...convexPlugin.configs.recommended,
   {
     files: ['**/*.ts', '**/*.tsx'],
     extends: [
