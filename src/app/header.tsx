@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
-import { SignInButton, UserButton } from "@clerk/nextjs";
+// import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
+// import { SignInButton, UserButton } from "@clerk/nextjs";
 import { ThemeToggle } from "~/app/theme-toggle";
 import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
@@ -15,17 +15,13 @@ export function Header() {
       </Link>
       <div className="flex items-center gap-4">
         <ThemeToggle />
-        <AuthLoading>
+        {/* <AuthLoading>
           <Skeleton className="h-8 w-8 rounded-full" />
         </AuthLoading>
         <Unauthenticated>
-          <Button asChild>
-            <SignInButton />
-          </Button>
+          <Button>Sign In</Button>
         </Unauthenticated>
-        <Authenticated>
-          <UserButton />
-        </Authenticated>
+        <Authenticated>User</Authenticated> */}
       </div>
     </header>
   );
