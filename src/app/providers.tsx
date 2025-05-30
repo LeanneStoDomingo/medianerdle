@@ -56,9 +56,8 @@ function SuspendedPostHogPageView() {
   );
 }
 
-// import { ClerkProvider, useAuth } from "@clerk/nextjs";
-// import { ConvexProviderWithClerk } from "convex/react-clerk";
-import { ConvexReactClient, ConvexProvider } from "convex/react";
+import { ConvexReactClient } from "convex/react";
+import { ConvexAuthProvider } from "@convex-dev/auth/react";
 
 const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL);
 
@@ -67,11 +66,7 @@ export function ConvexClientProvider({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    // <ClerkProvider>
-    <ConvexProvider client={convex}>{children}</ConvexProvider>
-    // </ClerkProvider>
-  );
+  return <ConvexAuthProvider client={convex}>{children}</ConvexAuthProvider>;
 }
 
 import { ThemeProvider as NextThemesProvider } from "next-themes";

@@ -1,13 +1,31 @@
 "use client";
 
 import Link from "next/link";
-// import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
-// import { SignInButton, UserButton } from "@clerk/nextjs";
+import { useAuthActions } from "@convex-dev/auth/react";
+import {
+  Authenticated,
+  Unauthenticated,
+  AuthLoading,
+  useQuery,
+} from "convex/react";
+import { api } from "convex/_generated/api";
 import { ThemeToggle } from "~/app/theme-toggle";
 import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
+import { LogOutIcon } from "lucide-react";
 
 export function Header() {
+  const { signIn } = useAuthActions();
+
   return (
     <header className="container mx-auto flex items-center justify-between p-4">
       <Link href="/" className="text-2xl">
@@ -15,14 +33,43 @@ export function Header() {
       </Link>
       <div className="flex items-center gap-4">
         <ThemeToggle />
-        {/* <AuthLoading>
+        <AuthLoading>
           <Skeleton className="h-8 w-8 rounded-full" />
         </AuthLoading>
         <Unauthenticated>
-          <Button>Sign In</Button>
+          <Button onClick={() => signIn("github")}>Sign In</Button>
         </Unauthenticated>
-        <Authenticated>User</Authenticated> */}
+        <Authenticated>
+          <UserButton />
+        </Authenticated>
       </div>
     </header>
+  );
+}
+
+function UserButton() {
+  const { signOut } = useAuthActions();
+
+  const user = useQuery(api.auth.getMe);
+
+  if (!user) return null;
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Avatar className="cursor-pointer">
+          <AvatarImage src={user.avatar} />
+          <AvatarFallback>{user.initials}</AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Hello {user.name}!</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => signOut()}>
+          <LogOutIcon />
+          <span>Sign Out</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
