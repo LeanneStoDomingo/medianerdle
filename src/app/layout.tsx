@@ -8,6 +8,7 @@ import {
   ThemeProvider,
 } from "~/app/providers";
 import { Header } from "~/app/header";
+import { Toaster } from "~/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
               <Header />
               {children}
               <Footer />
+              <Toaster />
             </ThemeProvider>
           </PostHogProvider>
         </ConvexClientProvider>

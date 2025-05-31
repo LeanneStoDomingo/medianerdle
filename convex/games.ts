@@ -55,10 +55,8 @@ export const join = mutation({
   args: {},
   handler: async (ctx, args) => {
     const user = await getAuthUser(ctx);
-    // if (!user) throw new Error("User not authenticated");
     if (!user) return null;
 
-    // await joinGame(ctx, user);
     const gameId = await joinGame(ctx, user);
     return gameId;
   },
