@@ -1,0 +1,33 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+			"label": "next",
+			"type": "shell",
+			"command": "npm run dev",
+			"problemMatcher": [],
+			"presentation": {
+				"group": "groupA"
+			}
+		},
+		{
+			"label": "convex",
+			"type": "shell",
+			"command": "npx convex dev",
+			"problemMatcher": [],
+			"presentation": {
+				"group": "groupA"
+			}
+		},
+		{
+			"label": "dev",
+			"dependsOn": [
+				"next",
+				"convex"
+			],
+			"problemMatcher": []
+		}
+    ]
+}
