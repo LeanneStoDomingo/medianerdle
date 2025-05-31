@@ -8,7 +8,7 @@ import {
   AuthLoading,
   useQuery,
 } from "convex/react";
-import { api } from "convex/_generated/api";
+import { api } from "../../convex/_generated/api";
 import { ThemeToggle } from "~/app/theme-toggle";
 import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
