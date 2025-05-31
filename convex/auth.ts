@@ -31,15 +31,15 @@ export const getMe = query({
 
     if (!user) return null;
 
-    const [firstInitial, secondInitial] = user.name.split(" ");
+    const [firstName, secondName] = user.name.split(" ");
 
     let initials = "";
-    if (!!firstInitial) {
-      initials += firstInitial[0].toUpperCase();
-    }
-    if (!!secondInitial) {
-      initials += secondInitial[0].toUpperCase();
-    }
+
+    const firstInitial = firstName?.charAt(0).toUpperCase();
+    if (!!firstInitial) initials += firstInitial;
+
+    const secondInitial = secondName?.charAt(0).toUpperCase();
+    if (!!secondInitial) initials += secondInitial;
 
     return { name: user.name, avatar: user.avatar, initials };
   },
