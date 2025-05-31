@@ -25,6 +25,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "convex": "^1.24.2",
+    "convex-helpers": "^0.1.89",
     "lucide-react": "^0.511.0",
     "next": "15.3.2",
     "next-themes": "^0.4.6",
