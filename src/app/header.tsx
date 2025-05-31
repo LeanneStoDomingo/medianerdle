@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuthActions } from "@convex-dev/auth/react";
 import {
   Authenticated,
@@ -25,6 +26,7 @@ import { LogOutIcon } from "lucide-react";
 
 export function Header() {
   const { signIn } = useAuthActions();
+  const pathname = usePathname();
 
   return (
     <header className="container mx-auto flex items-center justify-between p-4">
@@ -37,7 +39,9 @@ export function Header() {
           <Skeleton className="h-8 w-8 rounded-full" />
         </AuthLoading>
         <Unauthenticated>
-          <Button onClick={() => signIn("github")}>Sign In</Button>
+          <Button onClick={() => signIn("github", { redirectTo: pathname })}>
+            Sign In
+          </Button>
         </Unauthenticated>
         <Authenticated>
           <UserButton />
@@ -48,6 +52,7 @@ export function Header() {
 }
 
 function UserButton() {
+  const router = useRouter();
   const { signOut } = useAuthActions();
 
   const user = useQuery(api.auth.getMe);
@@ -65,7 +70,12 @@ function UserButton() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Hello {user.name}!</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>
+        <DropdownMenuItem
+          onClick={async () => {
+            await signOut();
+            router.push("/");
+          }}
+        >
           <LogOutIcon />
           <span>Sign Out</span>
         </DropdownMenuItem>

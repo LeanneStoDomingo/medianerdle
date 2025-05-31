@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "~/components/ui/button";
 
 export default function Home() {
@@ -7,7 +8,9 @@ export default function Home() {
         MediaNerdle
       </h1>
       <p>Cine2Nerdle Battle clone with movies and tv shows</p>
-      <Button size="lg">Play Now</Button>
+      <Button size="lg" asChild>
+        <Link href="/battle">Play Now</Link>
+      </Button>
     </main>
   );
 }
