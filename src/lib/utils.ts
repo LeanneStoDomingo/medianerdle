@@ -16,6 +16,6 @@ export function getSignInUrl(pathname: string) {
   return {
     pathname: "/sign-in",
     redirect: pathname,
-    fullPath: `/sign-in?redirect=${pathname}`,
+    fullPath: `/sign-in?redirect=${encodeURIComponent(pathname)}`,
   };
 }
