@@ -58,7 +58,7 @@ function UserButton() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer">
-          <AvatarImage src={user.avatar} />
+          <AvatarImage src={user.avatar ?? "/circle-user.svg"} />
           <AvatarFallback>{user.initials}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

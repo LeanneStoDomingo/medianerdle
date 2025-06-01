@@ -21,7 +21,18 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
         };
       },
     }),
-    Anonymous,
+    Anonymous({
+      profile: (profile, ctx) => {
+        const randomNumber = Math.floor(Math.random() * 10000)
+          .toString()
+          .padStart(4, "0");
+
+        return {
+          isAnonymous: true,
+          name: `User${randomNumber}`,
+        };
+      },
+    }),
   ],
 });
 

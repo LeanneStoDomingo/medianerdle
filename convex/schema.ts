@@ -25,8 +25,8 @@ const customAuthTables = {
   ...authTables,
   users: defineTable({
     name: v.string(),
-    avatar: v.string(),
-    email: v.string(),
+    avatar: v.optional(v.string()),
+    email: v.optional(v.string()),
     emailVerificationTime: v.optional(v.number()),
     isAnonymous: v.optional(v.boolean()),
     currentGame: v.optional(v.id("games")),
