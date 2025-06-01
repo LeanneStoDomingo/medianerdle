@@ -11,7 +11,7 @@ import { asyncMap } from "convex-helpers";
 import { getAuthUser } from "./auth";
 
 async function joinGame(ctx: MutationCtx, user: Doc<"users">) {
-  if (!!user.currentGame) return user.currentGame;
+  if (user.currentGame) return user.currentGame;
 
   const waitingGame = await ctx.db
     .query("games")
@@ -72,7 +72,7 @@ export const leave = mutation({
     const otherPlayer =
       game.playerOne === user._id ? game.playerTwo : game.playerOne;
 
-    if (!!otherPlayer) {
+    if (otherPlayer) {
       await ctx.db.patch(otherPlayer, { currentGame: undefined });
     }
 

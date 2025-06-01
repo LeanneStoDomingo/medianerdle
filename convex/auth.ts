@@ -56,10 +56,10 @@ export const getMe = query({
     let initials = "";
 
     const firstInitial = firstName?.charAt(0).toUpperCase();
-    if (!!firstInitial) initials += firstInitial;
+    if (firstInitial) initials += firstInitial;
 
     const secondInitial = secondName?.charAt(0).toUpperCase();
-    if (!!secondInitial) initials += secondInitial;
+    if (secondInitial) initials += secondInitial;
 
     return { name: user.name, avatar: user.avatar, initials };
   },
