@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useAuthActions } from "@convex-dev/auth/react";
 import {
   Authenticated,
@@ -10,7 +11,6 @@ import {
 } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { ThemeToggle } from "~/app/theme-toggle";
-import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import {
@@ -22,10 +22,9 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { LogOutIcon } from "lucide-react";
+import { SignInButton } from "~/components/sign-in-button";
 
 export function Header() {
-  const { signIn } = useAuthActions();
-
   return (
     <header className="container mx-auto flex items-center justify-between p-4">
       <Link href="/" className="text-2xl">
@@ -37,7 +36,7 @@ export function Header() {
           <Skeleton className="h-8 w-8 rounded-full" />
         </AuthLoading>
         <Unauthenticated>
-          <Button onClick={() => signIn("github")}>Sign In</Button>
+          <SignInButton />
         </Unauthenticated>
         <Authenticated>
           <UserButton />
@@ -48,6 +47,7 @@ export function Header() {
 }
 
 function UserButton() {
+  const router = useRouter();
   const { signOut } = useAuthActions();
 
   const user = useQuery(api.auth.getMe);
@@ -58,14 +58,19 @@ function UserButton() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer">
-          <AvatarImage src={user.avatar} />
+          <AvatarImage src={user.avatar ?? "/circle-user.svg"} />
           <AvatarFallback>{user.initials}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Hello {user.name}!</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>
+        <DropdownMenuItem
+          onClick={async () => {
+            await signOut();
+            router.push("/");
+          }}
+        >
           <LogOutIcon />
           <span>Sign Out</span>
         </DropdownMenuItem>

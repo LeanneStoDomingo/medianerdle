@@ -18,7 +18,10 @@
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+
+    /* Additional settings copied from main tsconfig.json */
+    "noUncheckedIndexedAccess": true,
   },
   "include": ["./**/*"],
   "exclude": ["./_generated"]

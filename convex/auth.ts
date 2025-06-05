@@ -1,7 +1,12 @@
 import { convexAuth, getAuthUserId } from "@convex-dev/auth/server";
 import GitHub from "@auth/core/providers/github";
 import { Anonymous } from "@convex-dev/auth/providers/Anonymous";
-import { query, internalMutation } from "./_generated/server";
+import {
+  query,
+  internalMutation,
+  type QueryCtx,
+  type MutationCtx,
+} from "./_generated/server";
 import { asyncMap } from "convex-helpers";
 
 export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
@@ -16,18 +21,33 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
         };
       },
     }),
-    Anonymous,
+    Anonymous({
+      profile: (profile, ctx) => {
+        const randomNumber = Math.floor(Math.random() * 10000)
+          .toString()
+          .padStart(4, "0");
+
+        return {
+          isAnonymous: true,
+          name: `User${randomNumber}`,
+        };
+      },
+    }),
   ],
 });
+
+export async function getAuthUser(ctx: QueryCtx | MutationCtx) {
+  const userId = await getAuthUserId(ctx);
+
+  if (!userId) return null;
+
+  return await ctx.db.get(userId);
+}
 
 export const getMe = query({
   args: {},
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-
-    if (!userId) return null;
-
-    const user = await ctx.db.get(userId);
+    const user = await getAuthUser(ctx);
 
     if (!user) return null;
 
@@ -36,10 +56,10 @@ export const getMe = query({
     let initials = "";
 
     const firstInitial = firstName?.charAt(0).toUpperCase();
-    if (!!firstInitial) initials += firstInitial;
+    if (firstInitial) initials += firstInitial;
 
     const secondInitial = secondName?.charAt(0).toUpperCase();
-    if (!!secondInitial) initials += secondInitial;
+    if (secondInitial) initials += secondInitial;
 
     return { name: user.name, avatar: user.avatar, initials };
   },
